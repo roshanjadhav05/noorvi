@@ -1,8 +1,19 @@
 import { supabase } from '@/lib/supabase';
 import ProductCard from '@/components/ProductCard';
 
+export const revalidate = 0;
+
+interface Product {
+    id: string;
+    name: string;
+    category: string;
+    price: number;
+    image_url: string;
+    brand?: string;
+}
+
 // Fetch products by category
-async function getCategoryProducts(category: string) {
+async function getCategoryProducts(category: string): Promise<Product[]> {
     // Decode slug component to handle spaces if needed (though usually slugs are hyphenated)
     // Assuming exact match on name for now, or we should use slugify
     // The task says "category names" are plain text.
@@ -17,14 +28,12 @@ async function getCategoryProducts(category: string) {
         console.error('Error fetching products:', error);
         return [];
     }
-    return data || [];
+    return data as Product[] || [];
 }
 
 interface CategoryPageProps {
     params: { slug: string };
 }
-
-export const revalidate = 0;
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
     const categoryName = decodeURIComponent(params.slug);
@@ -48,6 +57,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                             category={product.category}
                             price={product.price}
                             imageUrl={product.image_url}
+                            brand={product.brand}
                         />
                     ))}
                 </div>
