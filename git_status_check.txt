@@ -1,0 +1,22 @@
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app/brand/[slug]/page.tsx
+	modified:   app/category/[slug]/page.tsx
+	modified:   components/AddToCartButton.tsx
+	modified:   components/ProductCard.tsx
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	git_log.txt
+	git_remote.txt
+	git_status.txt
+	git_status_check.txt
+	push_log.txt
+	scripts/test_db.js
+	supabase_seed.sql
+
+no changes added to commit (use "git add" and/or "git commit -a")

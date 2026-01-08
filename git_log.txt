@@ -1,0 +1,17 @@
+commit 2f7a24a9202ce7b8ffa4e24b2a74a75eb601d8dc
+Author: Noorvi <ai@noorvi.com>
+Date:   Thu Jan 8 21:46:07 2026 +0530
+
+    Fix all build crashes due to missing env vars
+
+commit 54e657af88fb0b0bfe1b668f05dd5643f09b021d
+Author: Noorvi <ai@noorvi.com>
+Date:   Thu Jan 8 21:42:22 2026 +0530
+
+    Fix Netlify build for Brand and Category pages
+
+commit dfa9e8b0690c2bdb75f8c8d8cf3b26b90bd447a7
+Author: Noorvi <ai@noorvi.com>
+Date:   Thu Jan 8 21:38:56 2026 +0530
+
+    Fix Netlify build validation for Supabase env vars

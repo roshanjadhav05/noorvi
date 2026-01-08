@@ -18,7 +18,6 @@ export default function AddToCartButton({ product }: { product: Product }) {
             quantity: 1,
             image_url: product.image_url
         });
-        alert("Added to cart!");
     };
 
     return (

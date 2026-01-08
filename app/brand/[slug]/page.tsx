@@ -47,7 +47,10 @@ async function getBrandProducts(brandName: string): Promise<Product[]> {
 
 export default async function BrandPage({ params }: PageProps) {
     const brandName = decodeURIComponent(params.slug);
+    console.log(`[BrandPage] Fetching products for brand: "${brandName}"`);
+
     const products = await getBrandProducts(params.slug);
+    console.log(`[BrandPage] Found ${products.length} products for brand: "${brandName}"`);
 
     // Group by category
     const groupedProducts: Record<string, Product[]> = {};

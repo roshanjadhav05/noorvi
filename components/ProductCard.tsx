@@ -32,7 +32,6 @@ export default function ProductCard({ id, name, category, price, imageUrl, brand
             quantity: 1,
             image_url: imageUrl
         });
-        alert('Added to cart!');
     };
 
     return (

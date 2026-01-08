@@ -38,7 +38,10 @@ interface CategoryPageProps {
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
     const categoryName = decodeURIComponent(params.slug);
+    console.log(`[CategoryPage] Fetching products for category: "${categoryName}"`);
+
     const products = await getCategoryProducts(categoryName);
+    console.log(`[CategoryPage] Found ${products.length} products for category: "${categoryName}"`);
 
     return (
         <div className="container mx-auto px-2 md:px-4 py-4">
