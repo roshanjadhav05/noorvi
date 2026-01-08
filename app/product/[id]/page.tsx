@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { createSafeSupabaseClient } from '@/lib/supabase/server';
 import Image from 'next/image';
 import Link from 'next/link';
 import AddToCartButton from '@/components/AddToCartButton';
@@ -16,32 +16,48 @@ interface PageProps {
 }
 
 async function getProduct(id: string): Promise<Product | null> {
-    const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('id', id)
-        .single();
+    const supabase = createSafeSupabaseClient();
+    if (!supabase) return null;
 
-    if (error) {
-        console.error('Error fetching product:', error);
+    try {
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (error) {
+            console.error('Error fetching product:', error);
+            return null;
+        }
+        return data as Product;
+    } catch (e) {
+        console.error('Unexpected error fetching product:', e);
         return null;
     }
-    return data;
 }
 
 async function getRelatedProducts(category: string, currentId: string): Promise<Product[]> {
-    const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('category', category)
-        .neq('id', currentId)
-        .limit(10); // Fetch a few related items
+    const supabase = createSafeSupabaseClient();
+    if (!supabase) return [];
 
-    if (error) {
-        console.error('Error fetching related products:', error);
+    try {
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .eq('category', category)
+            .neq('id', currentId)
+            .limit(10); // Fetch a few related items
+
+        if (error) {
+            console.error('Error fetching related products:', error);
+            return [];
+        }
+        return data as Product[] || [];
+    } catch (e) {
+        console.error('Unexpected error fetching related products:', e);
         return [];
     }
-    return data || [];
 }
 
 export default async function ProductPage({ params }: PageProps) {

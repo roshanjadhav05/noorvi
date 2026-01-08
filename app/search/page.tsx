@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { createSafeSupabaseClient } from '@/lib/supabase/server';
 import ProductCard from '@/components/ProductCard';
 import Link from 'next/link';
 
@@ -15,17 +15,25 @@ interface SearchPageProps {
 async function searchProducts(query: string): Promise<Product[]> {
     if (!query) return [];
 
-    // Fallback to simple ILIKE search if full-text vector is problematic or for broader matching
-    const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .or(`name.ilike.%${query}%,category.ilike.%${query}%,brand.ilike.%${query}%,description.ilike.%${query}%`);
+    const supabase = createSafeSupabaseClient();
+    if (!supabase) return [];
 
-    if (error) {
-        console.error('Error searching products:', error);
+    try {
+        // Fallback to simple ILIKE search if full-text vector is problematic or for broader matching
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .or(`name.ilike.%${query}%,category.ilike.%${query}%,brand.ilike.%${query}%,description.ilike.%${query}%`);
+
+        if (error) {
+            console.error('Error searching products:', error);
+            return [];
+        }
+        return data as Product[] || [];
+    } catch (e) {
+        console.error('Unexpected error searching products:', e);
         return [];
     }
-    return data || [];
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {

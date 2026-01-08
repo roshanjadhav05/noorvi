@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { createSafeSupabaseClient } from '@/lib/supabase/server';
 import ProductCard from '@/components/ProductCard';
 import CategorySection from '@/components/CategorySection';
 import BannerCarousel from '@/components/BannerCarousel';
@@ -15,28 +15,44 @@ interface Category {
 
 // Data fetching
 async function getProducts(): Promise<Product[]> {
-  const { data, error } = await supabase
-    .from('products')
-    .select('*')
-    .order('created_at', { ascending: false });
+  const supabase = createSafeSupabaseClient();
+  if (!supabase) return [];
 
-  if (error) {
-    console.error('Error fetching products:', error);
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching products:', error);
+      return [];
+    }
+    return data as Product[] || [];
+  } catch (e) {
+    console.error('Unexpected error fetching products:', e);
     return [];
   }
-  return data as Product[] || [];
 }
 
 async function getCategories(): Promise<Category[]> {
-  const { data, error } = await supabase
-    .from('categories')
-    .select('*');
+  const supabase = createSafeSupabaseClient();
+  if (!supabase) return [];
 
-  if (error) {
-    console.error('Error fetching categories:', error);
+  try {
+    const { data, error } = await supabase
+      .from('categories')
+      .select('*');
+
+    if (error) {
+      console.error('Error fetching categories:', error);
+      return [];
+    }
+    return data as Category[] || [];
+  } catch (e) {
+    console.error('Unexpected error fetching categories:', e);
     return [];
   }
-  return data as Category[] || [];
 }
 
 export default async function Home() {

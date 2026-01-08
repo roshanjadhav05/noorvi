@@ -9,7 +9,9 @@ if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('Missing Supabase environment variables')
 }
 
+// Provide dummy fallbacks to prevent build-time crashes if env vars are missing
+// The requests will fail at runtime if keys are invalid, but build will pass.
 export const supabase = createClient<Database>(
-    supabaseUrl || '',
-    supabaseAnonKey || ''
+    supabaseUrl || 'https://placeholder.supabase.co',
+    supabaseAnonKey || 'placeholder'
 )
