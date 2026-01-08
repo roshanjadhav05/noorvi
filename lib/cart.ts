@@ -1,4 +1,5 @@
 import { CartItem } from '@/types';
+export type { CartItem };
 
 export const getCart = (): CartItem[] => {
     if (typeof window === 'undefined') return [];
