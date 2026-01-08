@@ -7,15 +7,7 @@ import { ChevronLeft, Star, ShoppingBag, Truck, ShieldCheck } from 'lucide-react
 
 export const revalidate = 0;
 
-interface Product {
-    id: string;
-    name: string;
-    category: string;
-    price: number;
-    image_url: string;
-    description: string;
-    brand: string;
-}
+import { Product } from '@/types';
 
 interface PageProps {
     params: {

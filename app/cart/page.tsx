@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getCart, removeFromCart, updateQuantity, CartItem } from '@/lib/cart';
+import { getCart, removeFromCart, updateQuantity } from '@/lib/cart';
+import { CartItem } from '@/types';
 import Layout from '@/app/layout'; // Not needed if in app router but good for imports check
 import Link from 'next/link';
 import Image from 'next/image';

@@ -6,14 +6,7 @@ import BrandSection from '@/components/BrandSection';
 
 export const revalidate = 0; // Disable caching for now to see real-time updates
 
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  image_url: string;
-  brand?: string;
-}
+import { Product } from '@/types';
 
 interface Category {
   id: string;

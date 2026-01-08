@@ -3,14 +3,7 @@ import ProductCard from '@/components/ProductCard';
 
 export const revalidate = 0;
 
-interface Product {
-    id: string;
-    name: string;
-    category: string;
-    price: number;
-    image_url: string;
-    brand?: string;
-}
+import { Product } from '@/types';
 
 // Fetch products by category
 async function getCategoryProducts(category: string): Promise<Product[]> {

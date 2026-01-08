@@ -5,13 +5,15 @@ import Link from 'next/link';
 import { addToCart } from '@/lib/cart';
 import { Heart, Star } from 'lucide-react';
 
-interface ProductCardProps {
+import { Product } from '@/types';
+
+interface ProductCardProps extends Partial<Product> {
     id: string;
     name: string;
     category: string;
     price: number;
     imageUrl: string;
-    brand?: string; // Added optional brand prop
+    brand?: string;
 }
 
 export default function ProductCard({ id, name, category, price, imageUrl, brand }: ProductCardProps) {
