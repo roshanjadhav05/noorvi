@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { createSafeSupabaseClient } from '@/lib/supabase/server';
 import ProductCard from '@/components/ProductCard';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
@@ -14,22 +14,35 @@ interface PageProps {
 }
 
 // Fetch products by brand
+// Fetch products by brand
 async function getBrandProducts(brandName: string): Promise<Product[]> {
-    // Decode the slug to handle spaces or special vars if any, though likely simple text
-    const decodedBrand = decodeURIComponent(brandName);
+    const supabase = createSafeSupabaseClient();
 
-    // Use textSearch or ilike for flexible matching, or exact match if preferred
-    const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .ilike('brand', decodedBrand)
-        .order('price', { ascending: true }); // Maybe sort by price or created_at
-
-    if (error) {
-        console.error(`Error fetching products for brand ${brandName}:`, error);
+    if (!supabase) {
+        console.warn('Supabase client invalid (missing env vars?), returning empty products.');
         return [];
     }
-    return data as Product[] || [];
+
+    try {
+        // Decode the slug to handle spaces or special vars if any, though likely simple text
+        const decodedBrand = decodeURIComponent(brandName);
+
+        // Use textSearch or ilike for flexible matching, or exact match if preferred
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .ilike('brand', decodedBrand)
+            .order('price', { ascending: true }); // Maybe sort by price or created_at
+
+        if (error) {
+            console.error(`Error fetching products for brand ${brandName}:`, error);
+            return [];
+        }
+        return data as Product[] || [];
+    } catch (e) {
+        console.error('Unexpected error fetching brand products:', e);
+        return [];
+    }
 }
 
 export default async function BrandPage({ params }: PageProps) {
