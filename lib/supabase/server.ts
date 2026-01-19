@@ -1,16 +1,25 @@
-import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/types/supabase';
+import 'server-only'
+import { createServerComponentClient, createServerActionClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+import { Database } from '@/types/supabase'
 
-// This function safely returns a supabase client or null if env vars are missing
-// adhering to the standard "don't crash build" requirement.
+export const createClient = () => {
+    const cookieStore = cookies()
+    return createServerComponentClient<Database>({ cookies: () => cookieStore })
+}
+
+export const createActionClient = () => {
+    const cookieStore = cookies()
+    return createServerActionClient<Database>({ cookies: () => cookieStore })
+}
+
 export const createSafeSupabaseClient = () => {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    if (!supabaseUrl || !supabaseAnonKey) {
-        console.warn('Supabase environment variables are missing. API calls will fail gracefully.');
-        return null;
+    const cookieStore = cookies()
+    try {
+        return createServerComponentClient<Database>({ cookies: () => cookieStore })
+    } catch (error) {
+        // Return null if something fails (missing envs etc)
+        console.error('Failed to create supabase client:', error)
+        return null
     }
-
-    return createClient<Database>(supabaseUrl, supabaseAnonKey);
-};
+}

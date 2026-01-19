@@ -10,7 +10,20 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'via.placeholder.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'tyxmwjounzpftvcrsrie.supabase.co',
+      },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/wishlist',
+        destination: '/account/wishlist',
+        permanent: true,
+      },
+    ];
   },
 };
 

@@ -36,11 +36,16 @@ interface CategoryPageProps {
     params: { slug: string };
 }
 
+import { getWishlistIds } from '@/actions/wishlist';
+
 export default async function CategoryPage({ params }: CategoryPageProps) {
     const categoryName = decodeURIComponent(params.slug);
     console.log(`[CategoryPage] Fetching products for category: "${categoryName}"`);
 
     const products = await getCategoryProducts(categoryName);
+    const wishlistIds = await getWishlistIds();
+    const wishlistSet = new Set(wishlistIds);
+
     console.log(`[CategoryPage] Found ${products.length} products for category: "${categoryName}"`);
 
     return (
@@ -65,6 +70,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                             price={product.price}
                             imageUrl={product.image_url}
                             brand={product.brand}
+                            isWishlisted={wishlistSet.has(product.id)}
                         />
                     ))}
                 </div>

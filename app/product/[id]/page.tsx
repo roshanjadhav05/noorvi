@@ -3,7 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import AddToCartButton from '@/components/AddToCartButton';
 import ProductCard from '@/components/ProductCard';
+import ProductImageGallery from '@/components/ProductImageGallery';
 import { ChevronLeft, Star, ShoppingBag, Truck, ShieldCheck } from 'lucide-react';
+import { getWishlistIds } from '@/actions/wishlist';
 
 export const revalidate = 0;
 
@@ -60,6 +62,8 @@ async function getRelatedProducts(category: string, currentId: string): Promise<
     }
 }
 
+import BackButton from '@/components/BackButton';
+
 export default async function ProductPage({ params }: PageProps) {
     const product = await getProduct(params.id);
 
@@ -75,15 +79,15 @@ export default async function ProductPage({ params }: PageProps) {
     }
 
     const relatedProducts = await getRelatedProducts(product.category, product.id);
+    const wishlistIds = await getWishlistIds();
+    const wishlistSet = new Set(wishlistIds);
 
     return (
         <div className="bg-gray-50 min-h-screen pb-20">
             {/* Header / Breadcrumb */}
             <div className="bg-white sticky top-0 md:top-14 z-40 shadow-sm border-b border-gray-100">
                 <div className="container mx-auto px-4 h-14 flex items-center gap-2">
-                    <Link href="/" className="md:hidden p-1 mr-2 rounded-full hover:bg-gray-100">
-                        <ChevronLeft className="h-6 w-6 text-gray-600" />
-                    </Link>
+                    <BackButton />
                     <Link href="/" className="hidden md:flex items-center text-sm text-gray-500 hover:text-blue-600 mr-2">
                         Home
                     </Link>
@@ -97,17 +101,13 @@ export default async function ProductPage({ params }: PageProps) {
             <div className="container mx-auto px-0 md:px-4 py-0 md:py-6">
                 <div className="bg-white md:rounded-lg shadow-sm overflow-hidden flex flex-col md:flex-row">
                     {/* Image Section */}
-                    <div className="w-full md:w-1/2 lg:w-2/5 relative bg-white p-4 md:p-8 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-100">
-                        <div className="relative w-full aspect-square max-w-md">
-                            <Image
-                                src={product.image_url}
-                                alt={product.name}
-                                fill
-                                className="object-contain" // Changed from object-cover to contain to see full product
-                                priority
-                            />
-                        </div>
-                        {/* Optional: Add Like/Share buttons absolute here */}
+                    <div className="w-full md:w-1/2 lg:w-2/5 relative bg-white p-4 md:p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-100">
+                        <ProductImageGallery
+                            images={product.images}
+                            fallbackImage={product.image_url}
+                            name={product.name}
+                        />
+                        {/* Optional: Add Like/Share buttons absolute here or inside gallery */}
                     </div>
 
                     {/* Content Section */}
@@ -202,6 +202,7 @@ export default async function ProductPage({ params }: PageProps) {
                                             price={p.price}
                                             imageUrl={p.image_url}
                                             brand={p.brand}
+                                            isWishlisted={wishlistSet.has(p.id)}
                                         />
                                     </div>
                                 ))}

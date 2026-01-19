@@ -1,0 +1,12 @@
+[
+  "createBrowserSupabaseClient",
+  "createClientComponentClient",
+  "createMiddlewareClient",
+  "createMiddlewareSupabaseClient",
+  "createPagesBrowserClient",
+  "createPagesServerClient",
+  "createRouteHandlerClient",
+  "createServerActionClient",
+  "createServerComponentClient",
+  "createServerSupabaseClient"
+]

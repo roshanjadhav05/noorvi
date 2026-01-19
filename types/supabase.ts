@@ -30,8 +30,10 @@ export interface Database {
                     category: string
                     price: number
                     image_url: string
+                    images: string[] | null
                     description: string | null
                     created_at: string
+                    brand: string | null
                 }
                 Insert: {
                     id?: string
@@ -39,8 +41,10 @@ export interface Database {
                     category: string
                     price: number
                     image_url: string
+                    images?: string[] | null
                     description?: string | null
                     created_at?: string
+                    brand?: string | null
                 }
                 Update: {
                     id?: string
@@ -48,8 +52,10 @@ export interface Database {
                     category?: string
                     price?: number
                     image_url?: string
+                    images?: string[] | null
                     description?: string | null
                     created_at?: string
+                    brand?: string | null
                 }
             }
             orders: {
@@ -61,6 +67,8 @@ export interface Database {
                     product_name: string
                     quantity: number
                     created_at: string
+                    user_id: string | null
+                    total_price: number | null
                 }
                 Insert: {
                     id?: string
@@ -70,6 +78,8 @@ export interface Database {
                     product_name: string
                     quantity: number
                     created_at?: string
+                    user_id?: string | null
+                    total_price?: number | null
                 }
                 Update: {
                     id?: string
@@ -78,6 +88,28 @@ export interface Database {
                     address?: string
                     product_name?: string
                     quantity?: number
+                    created_at?: string
+                    user_id?: string | null
+                    total_price?: number | null
+                }
+            }
+            wishlist: {
+                Row: {
+                    id: string
+                    user_id: string
+                    product_id: string
+                    created_at: string
+                }
+                Insert: {
+                    id?: string
+                    user_id: string
+                    product_id: string
+                    created_at?: string
+                }
+                Update: {
+                    id?: string
+                    user_id?: string
+                    product_id?: string
                     created_at?: string
                 }
             }

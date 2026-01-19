@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Best wholesale prices for cosmetics",
 };
 
+import { AuthProvider } from "@/context/AuthProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -18,15 +20,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-background min-h-screen flex flex-col`}>
-        <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <footer className="bg-gray-900 text-white py-8 mt-auto">
-          <div className="max-w-7xl mx-auto px-4 text-center">
-            <p className="text-sm text-gray-400">© 2024 Noorvi Wholesale. All rights reserved.</p>
-          </div>
-        </footer>
+        <AuthProvider>
+          <Navbar />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <footer className="bg-gray-900 text-white py-8 mt-auto">
+            <div className="max-w-7xl mx-auto px-4 text-center">
+              <p className="text-sm text-gray-400">© 2024 Noorvi Wholesale. All rights reserved.</p>
+            </div>
+          </footer>
+        </AuthProvider>
       </body>
     </html>
   );

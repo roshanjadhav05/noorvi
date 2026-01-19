@@ -55,9 +55,13 @@ async function getCategories(): Promise<Category[]> {
   }
 }
 
+import { getWishlistIds } from '@/actions/wishlist';
+
 export default async function Home() {
   const products = await getProducts();
   const categories = await getCategories();
+  const wishlistIds = await getWishlistIds();
+  const wishlistSet = new Set(wishlistIds);
 
   return (
     <div className="bg-gray-100 min-h-screen pb-20">
@@ -74,8 +78,8 @@ export default async function Home() {
         <BrandSection />
 
         {/* Featured Products */}
-        <h2 className="text-lg font-bold text-gray-800 mb-3 px-2 mt-6">Best Selling Products</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 px-1">
+        <h2 className="text-lg font-bold text-gray-800 mb-2 px-1 mt-4 md:mt-6">Best Selling Products</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 px-0.5 md:px-1">
           {products.map((product) => (
             <ProductCard
               key={product.id}
@@ -85,6 +89,7 @@ export default async function Home() {
               price={product.price}
               imageUrl={product.image_url}
               brand={product.brand}
+              isWishlisted={wishlistSet.has(product.id)}
             />
           ))}
           {products.length === 0 && (

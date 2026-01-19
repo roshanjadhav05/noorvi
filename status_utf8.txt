@@ -1,0 +1,43 @@
+﻿On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app/category/[slug]/page.tsx
+	modified:   app/layout.tsx
+	modified:   app/page.tsx
+	modified:   app/product/[id]/page.tsx
+	modified:   components/Navbar.tsx
+	modified:   components/ProductCard.tsx
+	modified:   lib/supabase/server.ts
+	modified:   next.config.mjs
+	modified:   package-lock.json
+	modified:   package.json
+	modified:   types/supabase.ts
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	actions/
+	admin_setup.sql
+	app/account/
+	app/admin/
+	app/error.tsx
+	app/global-error.tsx
+	app/login/
+	app/signup/
+	auth_exports.json
+	components/BackButton.tsx
+	components/ProductImageGallery.tsx
+	context/
+	inspect_auth.js
+	lib/supabase/client.ts
+	middleware.ts
+	status.txt
+	storage_setup.sql
+	supabase_auth.sql
+	update_orders.sql
+	update_schema_images.sql
+	wishlist_setup.sql
+
+no changes added to commit (use "git add" and/or "git commit -a")
